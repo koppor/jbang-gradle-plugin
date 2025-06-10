@@ -25,10 +25,13 @@ plugins {
     id 'java-library'
     id 'groovy'
     id 'idea'
+    id 'mavenpublish'
     id 'org.kordamp.gradle.groovy-project'
     id 'org.kordamp.gradle.plugin'
     id 'com.github.johnrengelman.shadow'
 }
+
+group = 'com.github.koppor'
 
 config {
     info {
@@ -133,3 +136,12 @@ shadowJar {
 }
 
 jar.finalizedBy shadowJar
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+		from components.java
+        }
+    }
+}
