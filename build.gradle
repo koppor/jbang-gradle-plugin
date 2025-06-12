@@ -30,8 +30,6 @@ plugins {
     id 'org.kordamp.gradle.plugin'
 }
 
-group = 'com.github.koppor'
-
 config {
     info {
         name          = rootProject.name
@@ -60,7 +58,7 @@ config {
     plugins {
         plugin {
             name                = 'jbang'
-            id                  = 'dev.jbang'
+            id                  = 'com.github.koppor.jbang-gradle-plugin'
             implementationClass = 'dev.jbang.gradle.JBangPlugin'
         }
     }
