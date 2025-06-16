@@ -281,7 +281,6 @@ class JBangTask extends DefaultTask {
     private void executeJBang() {
         List<String> command = command()
         command.add(findJBangExecutable())
-        command.add("run")
         command.add(getResolvedScript().get())
         if (getResolvedArgs().get()) {
             command.addAll(getResolvedArgs().get())
