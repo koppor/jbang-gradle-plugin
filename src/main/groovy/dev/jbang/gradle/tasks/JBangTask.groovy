@@ -280,8 +280,9 @@ class JBangTask extends DefaultTask {
 
     private void executeJBang() {
         List<String> command = command()
+        // A single string is needed, because if "sh -c jbang" is used for execution, the parameters need to be passed as single string
         StringBuilder executable = new StringBuilder(findJBangExecutable())
-        executable.append(' run ').append(getResolvedScript().get())
+        executable.append(' run ').append("\"").append(getResolvedScript().get()).append("\"")
         if (getResolvedArgs().get()) {
             executable.append(' ').append(String.join(' ', getResolvedArgs().get()))
         }
