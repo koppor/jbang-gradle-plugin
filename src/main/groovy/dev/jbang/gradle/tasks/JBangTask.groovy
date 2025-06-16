@@ -284,7 +284,7 @@ class JBangTask extends DefaultTask {
         command.add("run")
         command.add(getResolvedScript().get())
         if (getResolvedArgs().get()) {
-            command.addAll(getResolvedArguments.get())
+            command.addAll(getResolvedArgs.get())
         }
         ProcessResult result = execute(command)
         if (result.getExitValue() != 0) {
