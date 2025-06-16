@@ -280,12 +280,12 @@ class JBangTask extends DefaultTask {
 
     private void executeJBang() {
         List<String> command = command()
-        StringBuilder executable = new StringBuilder(findJBangExecutable())
-        executable.append(' run ').append(getResolvedScript().get())
+        command.add(findJBangExecutable())
+        command.add("run")
+        command.add(getResolvedScript().get())
         if (getResolvedArgs().get()) {
-            executable.append(' ').append(String.join(' ', getResolvedArgs().get()))
+            command.addAll(getResolvedArguments.get())
         }
-        command.add(executable.toString())
         ProcessResult result = execute(command)
         if (result.getExitValue() != 0) {
             throw new IllegalStateException('Error while executing JBang. Exit code: ' + result.getExitValue())
@@ -335,7 +335,7 @@ class JBangTask extends DefaultTask {
     }
 
     private void unzip(File zipFile, Path installDir) throws IOException {
-        try (archive = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(zipFile)))) {
+        try (ZipArchiveInputStream archive = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(zipFile)))) {
             ZipArchiveEntry entry
             while ((entry = archive.nextZipEntry) != null) {
                 if (entry.directory) continue
