@@ -1,9 +1,9 @@
-= jbang-gradle-plugin
+= JBang Gradle Plugin
 :linkattrs:
 :project-owner:   jbangdev
 :project-name:    jbang-gradle-plugin
 :project-group:   dev.jbang
-:project-version: 0.2.0
+:project-version: 0.3.0
 :plugin-id:       {project-group}
 ifndef::env-github[]
 endif::[]
@@ -34,12 +34,13 @@ following properties
 
 [options="header", cols="6*<,^"]
 |===
-| Property   | Type         | Option        | System            | Environment       | Default                         | Required
-| script     | String       | jbang-script  | jbang.script      | JBANG_SCRIPT      |                                 | {required-icon}
-| args       | List<String> | jbang-args    | jbang.args        | JBANG_ARGS        | [ ]                             | {optional-icon}
-| trusts     | List<String> | jbang-trusts  | jbang.trusts      | JBANG_TRUSTS      | [ ]                             | {optional-icon}
-| version    | String       | jbang-version | jbang.version     | JBANG_VERSION     | latest                          | {optional-icon}
-| installDir | Directory    |               | jbang.install.dir | JBANG_INSTALL_DIR | $gradleUserHomeDir/caches/jbang | {optional-icon}
+| Property   | Type         | Option           | System            | Environment       | Default                         | Required
+| script     | String       | jbang-script     | jbang.script      | JBANG_SCRIPT      |                                 | {required-icon}
+| jbangArgs  | List<String> | jbang-jbang-args | jbang.jbangArgs   | JBANG_JBANG_ARGS  | [ ]                             | {optional-icon}
+| args       | List<String> | jbang-args       | jbang.args        | JBANG_ARGS        | [ ]                             | {optional-icon}
+| trusts     | List<String> | jbang-trusts     | jbang.trusts      | JBANG_TRUSTS      | [ ]                             | {optional-icon}
+| version    | String       | jbang-version    | jbang.version     | JBANG_VERSION     | latest                          | {optional-icon}
+| installDir | Directory    |                  | jbang.install.dir | JBANG_INSTALL_DIR | $gradleUserHomeDir/caches/jbang | {optional-icon}
 |===
 
 [horizontal]
