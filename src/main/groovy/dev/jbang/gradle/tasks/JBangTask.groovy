@@ -28,6 +28,7 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream
 import org.apache.commons.compress.utils.IOUtils
 import org.gradle.api.DefaultTask
+import org.gradle.api.invocation.Gradle
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
@@ -63,26 +64,31 @@ class JBangTask extends DefaultTask {
 
     @Input
     final Property<String> script
+
     @Input
     @Optional
     final Property<String> version
+
     @Input
     @Optional
     final ListProperty<String> jbangArgs
+
     @Input
     @Optional
     final ListProperty<String> args
+
     @Input
     @Optional
     final ListProperty<String> trusts
+
     @InputDirectory
     @Optional
     final DirectoryProperty installDir
 
     @Inject
-    JBangTask(ObjectFactory objects) {
-        DirectoryProperty jbangCacheDirectory = project.objects.directoryProperty()
-        jbangCacheDirectory.set(new File(project.gradle.gradleUserHomeDir, 'caches/jbang'))
+    JBangTask(ObjectFactory objects, Gradle gradle) {
+        DirectoryProperty jbangCacheDirectory = objects.directoryProperty()
+        jbangCacheDirectory.set(new File(gradle.gradleUserHomeDir, "caches/jbang"))
         Files.createDirectories(jbangCacheDirectory.get().asFile.toPath())
 
         script = objects.property(String).convention('')
