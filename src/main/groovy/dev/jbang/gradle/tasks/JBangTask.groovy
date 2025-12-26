@@ -83,6 +83,7 @@ class JBangTask extends DefaultTask {
     JBangTask(ObjectFactory objects) {
         DirectoryProperty jbangCacheDirectory = project.objects.directoryProperty()
         jbangCacheDirectory.set(new File(project.gradle.gradleUserHomeDir, 'caches/jbang'))
+        Files.createDirectories(jbangCacheDirectory.get().asFile.toPath())
 
         script = objects.property(String).convention('')
         version = objects.property(String).convention('latest')
