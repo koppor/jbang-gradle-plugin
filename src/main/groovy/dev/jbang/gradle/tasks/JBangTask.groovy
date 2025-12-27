@@ -87,17 +87,12 @@ class JBangTask extends DefaultTask {
 
     @Inject
     JBangTask(ObjectFactory objects, Gradle gradle) {
-        DirectoryProperty jbangCacheDirectory = objects.directoryProperty()
-        File cacheDir = new File(gradle.gradleUserHomeDir, "caches/jbang");
-        jbangCacheDirectory.set(cacheDir)
-        Files.createDirectories(cacheDir.toPath())
-
         script = objects.property(String).convention('')
         version = objects.property(String).convention('latest')
         jbangArgs = objects.listProperty(String).convention([])
         args = objects.listProperty(String).convention([])
         trusts = objects.listProperty(String).convention([])
-        installDir = objects.directoryProperty().convention(jbangCacheDirectory.get())
+        installDir = objects.directoryProperty()
     }
 
     @Option(option = 'jbang-script', description = 'The script to be executed by JBang (REQUIRED).')
@@ -130,6 +125,13 @@ class JBangTask extends DefaultTask {
         if (!script.getOrNull()) {
             throw new IllegalArgumentException("A value for script must be defined")
         }
+
+        File cacheDir = installDir.orElse(
+                project.layout.dir(project.provider {
+                    new File(project.gradle.gradleUserHomeDir, "caches/jbang")
+                })
+        ).get().asFile
+        Files.createDirectories(cacheDir.toPath())
 
         detectJBang()
         executeTrust()
