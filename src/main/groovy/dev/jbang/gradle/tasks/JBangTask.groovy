@@ -126,12 +126,15 @@ class JBangTask extends DefaultTask {
             throw new IllegalArgumentException("A value for script must be defined")
         }
 
-        File cacheDir = installDir.orElse(
-                project.layout.dir(project.provider {
-                    new File(project.gradle.gradleUserHomeDir, "caches/jbang")
-                })
-        ).get().asFile
-        Files.createDirectories(cacheDir.toPath())
+        File defaultCacheDir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches/jbang")
+        File actualDir;
+        if (installDir.isPresent()) {
+            actualDir = installDir.get().asFile;
+        } else {
+            actualDir = defaultCacheDir;
+            installDir.set(defaultCacheDir);
+        }
+        Files.createDirectories(actualDir.toPath())
 
         detectJBang()
         executeTrust()
