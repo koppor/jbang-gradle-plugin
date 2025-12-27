@@ -28,13 +28,13 @@ import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream
 import org.apache.commons.compress.utils.IOUtils
 import org.gradle.api.DefaultTask
-import org.gradle.api.invocation.Gradle
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Internal
 import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
@@ -64,23 +64,18 @@ class JBangTask extends DefaultTask {
 
     @Input
     final Property<String> script
-
     @Input
     @Optional
     final Property<String> version
-
     @Input
     @Optional
     final ListProperty<String> jbangArgs
-
     @Input
     @Optional
     final ListProperty<String> args
-
     @Input
     @Optional
     final ListProperty<String> trusts
-
     @InputDirectory
     @Optional
     final DirectoryProperty installDir
@@ -93,6 +88,9 @@ class JBangTask extends DefaultTask {
         args = objects.listProperty(String).convention([])
         trusts = objects.listProperty(String).convention([])
         installDir = objects.directoryProperty()
+
+        String userHome = System.getProperty('user.home')
+        installDir.convention(objects.directoryProperty().fileValue(new File(userHome, '.jbang' + File.separator + 'cache')))
     }
 
     @Option(option = 'jbang-script', description = 'The script to be executed by JBang (REQUIRED).')
@@ -126,15 +124,7 @@ class JBangTask extends DefaultTask {
             throw new IllegalArgumentException("A value for script must be defined")
         }
 
-        File actualDir;
-        if (installDir.isPresent()) {
-            actualDir = installDir.get().asFile;
-        } else {
-            File defaultCacheDir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches/jbang")
-            actualDir = defaultCacheDir;
-            installDir.fileValue(defaultCacheDir);
-        }
-        Files.createDirectories(actualDir.toPath())
+        Files.createDirectories(installDir.get().asFile.toPath())
 
         detectJBang()
         executeTrust()

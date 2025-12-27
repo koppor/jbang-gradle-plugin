@@ -1,0 +1,9 @@
+plugins {
+    id 'com.github.koppor.jbang-gradle-plugin'
+}
+
+import dev.jbang.gradle.tasks.JBangTask
+
+tasks.register('hello', JBangTask) {
+    script = 'hello.java'
+}
