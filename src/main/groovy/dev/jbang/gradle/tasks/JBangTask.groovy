@@ -126,11 +126,11 @@ class JBangTask extends DefaultTask {
             throw new IllegalArgumentException("A value for script must be defined")
         }
 
-        File defaultCacheDir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches/jbang")
         File actualDir;
         if (installDir.isPresent()) {
             actualDir = installDir.get().asFile;
         } else {
+            File defaultCacheDir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches/jbang")
             actualDir = defaultCacheDir;
             installDir.set(defaultCacheDir);
         }
