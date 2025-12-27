@@ -132,7 +132,7 @@ class JBangTask extends DefaultTask {
         } else {
             File defaultCacheDir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches/jbang")
             actualDir = defaultCacheDir;
-            installDir.set(defaultCacheDir);
+            installDir.fileValue(defaultCacheDir);
         }
         Files.createDirectories(actualDir.toPath())
 
