@@ -86,7 +86,7 @@ class JBangTask extends DefaultTask {
     final DirectoryProperty installDir
 
     @Inject
-    JBangTask(ObjectFactory objects, Gradle gradle) {
+    JBangTask(ObjectFactory objects) {
         script = objects.property(String).convention('')
         version = objects.property(String).convention('latest')
         jbangArgs = objects.listProperty(String).convention([])
