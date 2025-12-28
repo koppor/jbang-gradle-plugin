@@ -77,7 +77,7 @@ class JBangTask extends DefaultTask {
     final ListProperty<String> trusts
     @InputDirectory
     @Optional
-    final DirectoryProperty installDir
+    abstract DirectoryProperty getInstallDir()
 
     @Inject
     JBangTask(ObjectFactory objects) {
@@ -86,7 +86,6 @@ class JBangTask extends DefaultTask {
         jbangArgs = objects.listProperty(String).convention([])
         args = objects.listProperty(String).convention([])
         trusts = objects.listProperty(String).convention([])
-
         installDir.convention(
             getProject().getLayout().dir(
                 getProject().provider(() ->
