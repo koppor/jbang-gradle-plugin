@@ -33,7 +33,8 @@ import org.gradle.api.model.ObjectFactory
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.InputDirectory
+import org.gradle.api.tasks.Optional
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.tooling.BuildException
@@ -63,18 +64,19 @@ class JBangTask extends DefaultTask {
     @Input
     final Property<String> script
     @Input
-    @org.gradle.api.tasks.Optional
+    @Optional
     final Property<String> version
     @Input
-    @org.gradle.api.tasks.Optional
+    @Optional
     final ListProperty<String> jbangArgs
     @Input
-    @org.gradle.api.tasks.Optional
+    @Optional
     final ListProperty<String> args
     @Input
-    @org.gradle.api.tasks.Optional
+    @Optional
     final ListProperty<String> trusts
-    @Internal
+    @InputDirectory
+    @Optional
     final DirectoryProperty installDir
 
     @Inject
@@ -84,10 +86,14 @@ class JBangTask extends DefaultTask {
         jbangArgs = objects.listProperty(String).convention([])
         args = objects.listProperty(String).convention([])
         trusts = objects.listProperty(String).convention([])
-        installDir = objects.directoryProperty()
 
-        String userHome = System.getProperty('user.home')
-        installDir.convention(objects.directoryProperty().fileValue(new File(userHome, '.gradle' + File.separator + 'caches' + File.separator + 'jbang')))
+        installDir.convention(
+            getProject().getLayout().dir(
+                getProject().provider(() ->
+                    new File(getProject().getGradle().getGradleUserHomeDir(), "caches" + File.separator + "jbang")
+                )
+            )
+        );
     }
 
     @Option(option = 'jbang-script', description = 'The script to be executed by JBang (REQUIRED).')
