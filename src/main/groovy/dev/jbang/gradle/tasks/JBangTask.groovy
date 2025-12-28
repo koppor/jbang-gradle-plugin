@@ -89,7 +89,10 @@ abstract class JBangTask extends DefaultTask {
         installDir.convention(
             getProject().getLayout().dir(
                 getProject().provider(() ->
-                    new File(getProject().getGradle().getGradleUserHomeDir(), "caches" + File.separator + "jbang")
+                    File dir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches" + File.separator + "jbang")
+                    // Needs to be done at constructor, because gradle expects a valid file directory
+                    Files.createDirectories(dir.toPath())
+                    return dir
                 )
             )
         );
@@ -125,8 +128,6 @@ abstract class JBangTask extends DefaultTask {
         if (!script.getOrNull()) {
             throw new IllegalArgumentException("A value for script must be defined")
         }
-
-        Files.createDirectories(installDir.get().asFile.toPath())
 
         detectJBang()
         executeTrust()
