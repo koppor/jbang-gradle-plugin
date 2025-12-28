@@ -88,12 +88,12 @@ abstract class JBangTask extends DefaultTask {
         trusts = objects.listProperty(String).convention([])
         installDir.convention(
             getProject().getLayout().dir(
-                getProject().provider(() ->
+                getProject().provider(() -> {
                     File dir = new File(getProject().getGradle().getGradleUserHomeDir(), "caches" + File.separator + "jbang")
                     // Needs to be done at constructor, because gradle expects a valid file directory
                     Files.createDirectories(dir.toPath())
                     return dir
-                )
+                })
             )
         );
     }
