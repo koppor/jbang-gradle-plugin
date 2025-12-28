@@ -76,8 +76,7 @@ class JBangTask extends DefaultTask {
     @Input
     @Optional
     final ListProperty<String> trusts
-    @Internal
-    @Optional
+    @InputDirectory
     final DirectoryProperty installDir
 
     @Inject
