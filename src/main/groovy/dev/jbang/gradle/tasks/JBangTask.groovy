@@ -54,7 +54,7 @@ import java.nio.file.Path
  * @author Andres Almiray
  */
 @CompileStatic
-class JBangTask extends DefaultTask {
+abstract class JBangTask extends DefaultTask {
     private static final boolean IS_OS_WINDOWS = System.getProperty('os.name')
             .toLowerCase(Locale.ENGLISH)
             .contains('windows')
